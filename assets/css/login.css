@@ -1,0 +1,98 @@
+body {
+    background-color: #8f4747;
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ddd;
+    text-align: center;
+}
+
+header h1 {
+    font-family: 'Patua One', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2.5em;
+    font-weight: 500;
+}
+
+header img {
+    width: 15em;
+    padding: 10px;
+}
+
+main {
+    margin-top: 10%;
+}
+
+main p {
+    color: white;
+    font-size: 3em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main button {
+    color: #8f4747;
+    font-size: 2em;
+    width: 20%;
+    margin: 1em 0;
+    padding: 5px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: rgb(243, 222, 127);
+    box-shadow: 2px 2px 3px #333;
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    /* display: block; */
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+}
+
+.overlay .login-form {
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+    padding-top: 0;
+    border-color: rgba(0, 0, 0, 0);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.login-form h2 {
+    text-align: center;
+    background-color: #8f4747;
+    color: white;
+    padding: 10px 0;
+}
+
+.login-form p {
+    text-align: center;
+}
+
+.login-form form {
+    padding: 20px;
+}
+
+.login-form .form-group:last-of-type {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.login-form .btn {
+    background-color: #8f4747;
+    color: white;
+}
+
+.login-form .btn.cls {
+    background-color: #eee;
+    color: red;
+}

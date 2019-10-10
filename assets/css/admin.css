@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One|Be+Vietnam&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar-header {
+    font-family: 'Patua One', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-align: center;
+    color: rgb(131, 136, 143);
+    margin: 2em;
+}
+
+#sidebar {
+    width: 300px;
+    background-color: #191F25;
+    height: 100vh;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -300px;
+}
+
+.components {
+    margin: 20px auto 50px;
+}
+
+.components a:hover, .components .active a {
+    background-color: #FFBD59;
+    color: black;
+}
+
+.components a {
+    font-size: 1.2em;
+    color: white;
+    display: block;
+    padding: 1em;
+}
+
+.components a:hover {
+    text-decoration: none;
+}
+
+.btn.logout {
+    width: 50%;
+}
+
+.btn.logout:hover {
+    background-color: rgb(255, 189, 89, 0.8);
+}
+
+.btn.logout a {
+    text-decoration: none;
+    color: black;
+}
+
+.menu {
+    width: 40px;
+}
+
+main {
+    background-color: rgb(247, 182, 85, 0.1);
+    width: calc(100% - 300px);
+    padding: 10px 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-height: 100vh;
+}
+
+main.active {
+    width: 100%;
+}
+
+main .tab-content {
+    display: none;
+    margin: 20px auto;
+}
+
+main .tab-content.show {
+    display: block;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.home .avatar {
+    width: 200px;
+    width: 200px;
+}
+
+.home .welcome-message {
+    font-family: 'Patua One', Verdana, Geneva, Tahoma, sans-serif;
+    color: #8F4747;
+    font-size: 3em;
+    font-weight: 500;
+}
+
+.home .time {
+    margin: 5px;
+    font-size: 1.5em;
+}
+
+.tab-content:not(:first-of-type) header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px #ddd solid;
+    padding-bottom: 10px;
+    height: 100%;
+}
+
+.tab-content:not(:first-of-type) h1 {
+    font-weight: 500;
+    font-size: 2em;
+}
+
+header .left>* {
+    vertical-align: middle;
+}
+
+.tab-content:not(:first-of-type) header form, header .left>*, button.add-users {
+    display: inline-block;
+}
+
+.tab-content:not(:first-of-type) .search input[type=text] {
+    background: url(../images/magnifying-glass.svg) no-repeat 10px 10px;
+    background-size: 1em 1em;
+    width: 150px;
+    border: 1px solid #8F4747;
+    padding: 0.3em 1em 0.3em 2.3em;
+    border-radius: 20px;
+    transition: all 0.7s ease 0s;
+    font-size: 0.9em;
+}
+
+.tab-content:not(:first-of-type) .search input[type=text] {
+    width: 220px;
+}
+
+.tab-content:not(:first-of-type) button.add {
+    background: url(../images/plus.svg) 5px 4px no-repeat;
+    background-size: 1.5em 1.5em;
+    padding: 0.3em 1em 0.3em 2.3em;
+    margin: 0 1em;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: white;
+    background-color: #8F4747;
+    border: 2px solid #8F4747;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.user-image {
+    width: 40px;
+    border-radius: 50%;
+}
+
+img.user-action, .menu {
+    width: 25px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.modal .btn-save {
+    background-color: #8F4747;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    main {
+        width: 100%;
+    }
+}

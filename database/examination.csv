@@ -1,0 +1,4 @@
+instruction,timeDuration,activated,createdAt,lastModified,courseId
+"Attempt all questions. You have 1 hour. If your time runs out, your answers are submitted automatically.","01:00:00",TRUE,NOW(),NOW(),1
+"Answer just 1 question in 45 minutes. If your time runs out, your answers are submitted automatically.","00:45:00",TRUE,NOW(),NOW(),2
+"You have 25 minutes. Do what you can. If your time runs out, your answers are submitted automatically.","00:25:00",TRUE,NOW(),NOW(),3
