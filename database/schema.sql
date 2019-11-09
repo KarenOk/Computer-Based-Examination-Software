@@ -65,6 +65,16 @@ CREATE TABLE IF NOT EXISTS Question (
 );
 
 
+CREATE TABLE IF NOT EXISTS Student_Result (
+    studentId VARCHAR(255) PRIMARY KEY NOT NULL,
+    examId INT NOT NULL,
+    score INT,
+    FOREIGN KEY (studentId) REFERENCES Student(username),
+    FOREIGN KEY (examId) REFERENCES Exam(examId)
+);
+
+
+
 -- Intermediary table for Course and Student 
 CREATE TABLE IF NOT EXISTS Course_Student (
     id INT PRIMARY KEY AUTO_INCREMENT,

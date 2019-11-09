@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One|Be+Vietnam&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar-header {
+    font-family: 'Patua One', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-align: center;
+    color: rgb(131, 136, 143);
+    margin: 2em;
+}
+
+#sidebar {
+    width: 300px;
+    background-color: #191F25;
+    height: 100vh;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    transition: all 0.3s;
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+#sidebar.active {
+    margin-left: -300px;
+}
+
+#sidebar .btn {
+    width: 50%;
+}
+
+#sidebar .btn:hover {
+    background-color: rgb(255, 189, 89, 0.8);
+}
+
+#sidebar .btn a {
+    text-decoration: none;
+    color: black;
+}
+
+.menu {
+    width: 40px;
+}
+
+main {
+    background-color: rgb(166, 42, 42, 0.1);
+    width: calc(100% - 300px);
+    padding: 10px 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-height: 100vh;
+}
+
+main.active {
+    width: 100%;
+}
+
+main .tab {
+    display: none;
+    margin: 20px auto;
+}
+
+main .tab.show {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    main {
+        width: 100%;
+    }
+}
+
+/* Specific Styles */
+
+.timer {
+    font-size: 1.3em;
+    font-weight: 400;
+    width: 100%;
+    text-align: center;
+    border-top: 1.5px solid #82878F;
+    border-bottom: 1.5px solid #82878F;
+    padding: 15px 0;
+    color: white;
+}
+
+.question-no-list {
+    list-style-type: none;
+    color: white;
+    font-size: 1em;
+    padding: 15px 30px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1.5px solid #82878F;
+}
+
+.question-no {
+    font-weight: 600;
+    background-color: #82878F;
+    height: 1.5em;
+    width: 1.5em;
+    margin: 8px;
+    border-radius: 5px;
+    line-height: 1.5em;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.question-no.active {
+    background-color: rgb(255, 189, 89, 0.8);
+}
+
+.show .tab-flex-cont {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab {
+    width: 100%;
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+.tab div:nth-last-of-type(2) {
+    flex: 1;
+}
+
+div.submit {
+    margin-top: 50px;
+}
+
+.start-exam {
+    display: block;
+    background-color: white;
+    border: none;
+    color: green;
+    cursor: pointer;
+    padding: 3px 3px 5px 5px;
+    text-align: center;
+    margin: 15px auto;
+    font-weight: 500;
+    border-radius: 2px;
+}
+
+.start-exam:hover {
+    background-color: green;
+    color: white;
+}
+
+.start-exam span {
+    font-size: 1.2em;
+    margin: 0 4px;
+}
+
+.questions .tab-flex-cont, .questions .tab-content {
+    width: 100%;
+}
+
+form {
+    background-color: white;
+    padding: 20px 30px;
+}
+
+.question-cont {
+    margin-bottom: 10px;
+    display: none;
+}
+
+.question-cont.show {
+    display: block;
+}
+
+.question-control {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.question-control button {
+    width: 100px;
+    color: #8F4747;
+}
+
+.question-control button:not(:disabled):hover {
+    background-color: #8F4747;
+    color: white;
+}

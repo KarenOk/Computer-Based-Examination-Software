@@ -1,5 +1,6 @@
 <?php
 session_start();
+ini_set("display_errors", 1);
 
 if (!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === false) {
     header("location: views/login.php");
@@ -28,7 +29,7 @@ if ($_SESSION["usertype"] === "Administrator") {
 } elseif ($_SESSION["usertype"] === "Examiner") {
     include "views/examiner_home.php";
 } elseif ($_SESSION["usertype"] === "Student") {
-    include "views/student_home.php";
+    include "views/student.php";
 }
 ?>
 

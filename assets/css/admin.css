@@ -75,7 +75,7 @@ body {
 }
 
 main {
-    background-color: rgb(247, 182, 85, 0.1);
+    background-color: rgba(247, 178, 76, 0.1);
     width: calc(100% - 300px);
     padding: 10px 30px;
     position: absolute;

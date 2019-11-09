@@ -1,11 +1,10 @@
 <?php
 /*require_once('connect.php');*/
 ini_set('display_errors', 1);
-session_start();
 
-if (!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == false || !($_SESSION["usertype"] == "Student")) {
-    header("Location:login.php");
-}
+// if (!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == false || !($_SESSION["usertype"] == "Student")) {
+//     header("Location:login.php");
+// }
 
 $link = mysqli_connect("127.0.0.1", "pmauser", "password", "CBE");
 
@@ -18,7 +17,7 @@ if (!$link) {
 
 /*$a= mysqli_query("SELECT * FROM student_login WHERE id=".$_SESSION['student_id']. "");*/
 /*$b=mysqli_fetch_array($a); */
-$b = array("registration" => $_SESSION['username'], "l_name" => $_SESSION['username']);
+$b = array("registration" => '15040850', "l_name" => $_SESSION['username']);
 $qid = 0;
 $qid = $qid++;
 $etaker = mysqli_query($link, "SELECT User.id, User.username, start_exam.course, start_exam.category, start_exam.exam_tag, start_exam.exam_duration, start_exam.question_limit
