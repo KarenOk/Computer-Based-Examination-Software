@@ -19,21 +19,21 @@
     flex: 1;
 }
 
-.exam-item {
+.exam-item, .result-item {
     background-color: white;
     min-height: 80px;
     height: auto;
-    margin: 10px auto;
+    margin: 15px auto;
     width: 90%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-.exam-item>* {
+.exam-item>*, .result-item>* {
     padding: 0 10px;
 }
 
-.exam-item .course-code {
+.exam-item .course-code, .result-item .course-code {
     color: white;
     font-size: 1.2em;
     font-weight: 500;
@@ -43,15 +43,15 @@
     vertical-align: middle;
 }
 
-.exam-item:nth-of-type(odd) .course-code {
+.exam-item:nth-of-type(odd) .course-code, .result-cont:nth-of-type(odd) .course-code {
     background-color: #8F4747;
 }
 
-.exam-item:nth-of-type(even) .course-code {
+.exam-item:nth-of-type(even) .course-code, .result-cont:nth-of-type(even) .course-code {
     background-color: #D49E4E;
 }
 
-.exam-item .course-name {
+.exam-item .course-name, .result-item .course-name {
     flex-grow: 3;
     font-size: 1.6em;
 }
@@ -71,4 +71,40 @@
 .start-exam span {
     font-size: 1.2em;
     margin: 0 4px;
+}
+
+.result-cont {
+    margin: 20px auto;
+}
+
+.result-item {
+    box-shadow: 1px 1px 2px 1px #ccc;
+    min-height: 40px;
+    cursor: pointer;
+    margin: 20px auto 0;
+}
+
+.result-item:hover {
+    box-shadow: 1px 1px 2px 1.3px #bbb;
+}
+
+.result-item .course-name {
+    margin: 3px 0 5px;
+}
+
+.result-item .collapse-icon {
+    font-size: 1.4em;
+    vertical-align: middle;
+}
+
+.result-item .course-code {
+    line-height: 40px;
+}
+
+.result-details {
+    width: 90%;
+    background-color: #ece7df;
+    margin: 0 auto 20px;
+    padding: 20px;
+    text-align: right;
 }

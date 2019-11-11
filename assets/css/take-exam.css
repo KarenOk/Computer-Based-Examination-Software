@@ -135,6 +135,7 @@ main .tab.show {
     min-height: 90vh;
     display: flex;
     align-items: center;
+    align-items: center;
     justify-content: center;
 }
 
@@ -178,6 +179,17 @@ div.submit {
     width: 100%;
 }
 
+.tab header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 10px 20px;
+}
+
+#clockbox {
+    text-align: right;
+}
+
 form {
     background-color: white;
     padding: 20px 30px;
@@ -190,6 +202,11 @@ form {
 
 .question-cont.show {
     display: block;
+}
+
+.question-cont>*:not(.options-group) {
+    font-size: 1.05em;
+    font-weight: bold;
 }
 
 .question-control {

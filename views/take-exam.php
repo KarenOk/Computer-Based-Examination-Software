@@ -1,3 +1,11 @@
+<!-- TODO: restrict anyhow movement  -->
+
+<!-- TODO: Submit on countdown  -->
+
+<!-- TODO: Send total questions along  -->
+
+
+
 <?php
 session_start();
 ini_set("display_errors", 1); // Display errors
@@ -20,12 +28,11 @@ $sql = "SELECT instruction, timeDuration, courseCode, courseTitle
 
 $queryResult = mysqli_query($conn, $sql);
 if (mysqli_num_rows($queryResult) != 0) {
+    mysqli_data_seek($queryResult, 0);
     $exam = mysqli_fetch_object($queryResult);
 } else {
-    // TODO: Redirect
-
     // If there are no results, then the student shouldn't be taking the exam. Redirect.
-    // header("location: student.php");
+    header("location: ../index.php");
 }
 
 // Get Questions
@@ -67,7 +74,6 @@ $questionsResult = mysqli_query($conn, $sql);
             </div>
 
             <div class="timer">
-                <!-- TODO: Get Time and Countdown when start is clicked -->
                 <span class="duration">
                     <?php echo $exam->timeDuration; ?>
                 </span> remaining
@@ -96,8 +102,9 @@ mysqli_data_seek($questionsResult, 0);
             </ul>
 
             <div class="submit text-center">
-                <button class="btn btn-lg">
-                    <a href="../process/submit-exam.php"> Submit </a>
+                <button class="btn btn-lg" form="examForm" onclick="return ConfirmSubmit()">
+                    <!-- <a href="../process/submit-exam.php"> Submit </a> -->
+                    Submit
                 </button>
             </div>
 
@@ -128,13 +135,22 @@ mysqli_data_seek($questionsResult, 0);
                 <div class="tab-flex-cont">
 
                     <div class="tab-content">
+                        <header>
+                            <div class="headings">
+                                <h1> <?php echo $exam->courseCode; ?> </h1>
+                                <h2> <?php echo $exam->courseTitle ?> </h2>
+                            </div>
+                            <div id="clockbox"></div>
+                        </header>
 
-                        <form>
 
-                            <?php
+                    <form method="POST" action="../process/submit-exam.php" id="examForm">
+
+                        <?php
 $i = 1;
 while ($question = mysqli_fetch_assoc($questionsResult)) {
     $ques = $question['question'];
+    $quesId = $question['questionId'];
     $option1 = $question['option1'];
     $option2 = $question['option2'];
     $option3 = $question['option3'];
@@ -142,58 +158,77 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
     $option5 = $question['option5'];
     $answer = $question['answer'];
 
-    echo '
-                                        <section class="question-cont">
-                                            <span> Q' . $i . ': </span>
-                                            <label>' . stripcslashes($ques) . '</label>
-                                            <section class="options-group">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optradio" value=' . $option1 . '>'
-    . stripcslashes($option1) .
-    '</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optradio" value=' . $option2 . '>'
-    . stripcslashes($option2) .
-    '</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optradio" value=' . $option3 . '>'
-    . stripcslashes($option3) .
-    '</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optradio" value=' . $option4 . '>'
-    . stripcslashes($option4) .
-    '</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="radio" class="form-check-input" name="optradio" value=' . $option5 . '>'
-    . stripcslashes($option5) .
-        '</label>
-                                                </div>
+    // echo var_dump($question);
+    ?>
 
-                                            </section>
-                                        </section>';
-    $i++;
+                        <section class="question-cont">
+                            <span> Q<?php echo $i ?>: </span>
+                            <label class="question"> <?php echo stripcslashes($ques) ?> </label>
+                            <section class="options-group">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            name="answer[<?php echo $quesId ?>]"
+                                            value=' <?php echo stripcslashes($option1) ?> '> A:
+                                        <?php echo stripcslashes($option1); ?>
+                                        '</label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option2 ?> '>
+                                        B:
+                                        <?php echo stripcslashes($option2) ?>
+                                        '</label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option3 ?> '>
+                                        C:
+                                        <?php echo stripcslashes($option3) ?>
+                                        '</label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option4 ?> '>
+                                        D:
+                                        <?php echo stripcslashes($option4) ?>
+                                        '</label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input"
+                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option5 ?> '>
+                                        E:
+                                        <?php echo stripcslashes($option5) ?>
+                                        '</label>
+                                </div>
+
+                                <input type="hidden" name="correct_answer[<?php echo $quesId ?>]"
+                                    value='<?php echo $answer ?>' />
+
+                            </section>
+                        </section>
+                        <?php
+$i++;
 }
 ;
 ?>
+                        <input type="hidden" name="examId" value='<?php echo $examid ?>' />
+                        <input type="hidden" name="studentId" value='<?php echo $username ?>' />
 
-                            <section class="question-control">
-                                <button type="button" class="btn" onclick="nav(-1)"> &laquo; Previous </button>
-                                <button type="button" class="btn" onclick="nav(1)"> Next &raquo; </button>
 
-                            </section>
+                        <section class="question-control">
+                            <button type="button" class="btn" onclick="nav(-1)"> &laquo; Previous </button>
+                            <button type="button" class="btn" onclick="nav(1)"> Next &raquo; </button>
 
-                        </form>
+                        </section>
 
-                    </div>
+                    </form>
+
+                </div>
 
                 </div>
 
@@ -220,6 +255,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
 
         <script>
         let started = false;
+
         $(document).ready(function() {
             $(".menu").on("click", function() {
                 $('#sidebar').toggleClass('active');
@@ -228,49 +264,32 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
 
         });
 
-        // After clicking Continue, remove Instructions
+
+        // After clicking Start, remove Instructions
         $(".start-exam").on("click", function(event) {
             $(`.tab.instructions`).removeClass("show");
             $(`.tab.questions`).addClass("show");
             started = true;
-
+            countDown = window.setInterval(timer, 1001);
         });
+
 
         $("#sidebar li").on("click", function(event) {
 
-            // let ref_this = $("#sidebar li.active");
-            // let target = $(event.target);
-
-            // ref_this.removeClass("active");
-            // target.parent().addClass("active");
-
-
-            // // Get active tab
-            // let activeTab = target.data("tab");
-
-            // // Remove show from all tab contents
-            // $(".tab").each(function() {
-            //     $(this).removeClass("show");
-            // });
-
-            // console.log($(`.tab.${activeTab}`));
-            // //  Add show to active tab
-            // $(`.tab.${activeTab}`).addClass("show");
-
-
             // After clicking any question number, remove exam instructions
-            if (started = false) {
+            if (started === false) {
                 $(`.tab.instructions`).removeClass("show");
                 $(`.tab.questions`).addClass("show");
                 started = true;
+                countDown = window.setInterval(timer, 1001);
             };
 
         });
 
-        questionContainers = document.querySelectorAll(".question-cont");
-        questionNavList = document.querySelectorAll(".question-no-list li");
-        questionControls = document.querySelectorAll(".question-control .btn");
-        currentQuestion = 0;
+        let questionContainers = document.querySelectorAll(".question-cont");
+        let questionNavList = document.querySelectorAll(".question-no-list li");
+        let questionControls = document.querySelectorAll(".question-control .btn");
+        let currentQuestion = 0;
 
 
         function showQuestion(i) {
@@ -298,6 +317,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
             };
         };
 
+        let countDown;
         let durationElem = document.querySelector(".timer .duration");
         let duration = durationElem.innerText;
         let splitDuration = duration.split(":");
@@ -305,22 +325,13 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
         let durationMin = Number(splitDuration[1]);
         let durationSec = Number(splitDuration[2]);
 
-        // function toDate(timeStr, format) {
-        //     var now = new Date();
-        //     var splitTimeStr= timeStr.split(":");
-        //         now.setHours(splitTimeStr[0]);
-        //         now.setMinutes(splitTimeStr[1]);
-        //         now.setSeconds(splitTimeStr[2]);
-        //         return now;
-
-        // }
 
         function timer() {
             if (durationSec === 0) {
                 durationSec = 59;
                 if (durationMin === 0) {
                     durationMin = 59
-                    durationHour --;
+                    durationHour--;
                 } else {
                     durationMin--;
                 }
@@ -329,19 +340,20 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
             }
 
             // Hours is only padded if its a single digit
-            duration = (String(durationHour).length < 2 ? padNo(durationHour, 2) : durationHour) + ":" + padNo(durationMin, 2) + ":" + padNo(durationSec, 2);
+            duration = (String(durationHour).length < 2 ? padNo(durationHour, 2) : durationHour) + ":" + padNo(
+                durationMin, 2) + ":" + padNo(durationSec, 2);
             durationElem.innerText = duration;
 
             // Stop at 00:00:00
-            if (durationSec=== 0 && durationMin === 0 && durationHour === 0) {
+            if (durationSec === 0 && durationMin === 0 && durationHour === 0) {
                 window.clearInterval(countDown);
             }
         }
 
-        // Function to padd numbers
-        function padNo(num, size){
+        // Function to pad numbers
+        function padNo(num, size) {
             numStr = String(num)
-            if ( numStr.length < size) {
+            if (numStr.length < size) {
                 while (numStr.length < size) {
                     numStr = "0" + numStr
                 }
@@ -349,7 +361,47 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
             return numStr;
         }
 
-        let countDown = window.setInterval(timer, 1001);
+
+        function ConfirmSubmit() {
+            return confirm("Are you sure you want to submit?");
+        }
+
+
+        var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var tmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+            "November", "December"
+        ];
+
+        function GetClock() {
+            var d = new Date();
+            var nday = d.getDay(),
+                nmonth = d.getMonth(),
+                ndate = d.getDate(),
+                nyear = d.getFullYear();
+            var nhour = d.getHours(),
+                nmin = d.getMinutes(),
+                ap;
+            if (nhour == 0) {
+                ap = " AM";
+                nhour = 12;
+            } else if (nhour < 12) {
+                ap = " AM";
+            } else if (nhour == 12) {
+                ap = " PM";
+            } else if (nhour > 12) {
+                ap = " PM";
+                nhour -= 12;
+            }
+
+            if (nmin <= 9) nmin = "0" + nmin;
+
+            var clocktext = "" + tday[nday] + ", <br> " + tmonth[nmonth] + " " + ndate + ", " + nyear + " <br> " +
+                nhour + ":" + nmin + ap + "";
+            document.getElementById('clockbox').innerHTML = clocktext;
+        }
+
+        GetClock();
+        setInterval(GetClock, 1000);
         </script>
 
 </body>

@@ -1,3 +1,8 @@
+<!-- TODO: Check if questions exist for an exam  -->
+
+<!-- TODO: Display exam only if it doesn't have a result -->
+
+
 <?php
 // session_start();
 ini_set("display_errors", 1);
@@ -6,14 +11,10 @@ $username = $_SESSION["username"];
 $queryResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
 $studentObj = mysqli_fetch_object($queryResult);
 
-$queryResult = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId=.$username.");
-if ($queryResult) {
-    $examResults = mysqli_fetch_object($queryResult);
-} else {
-    $examResults = array();
-}
-
+$examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId=$username");
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,10 +87,8 @@ if ($queryResult) {
             <section class="tab-content exams" id="exams">
                 <div class="tab-flex-cont">
                     <div class="actual-tab-content">
-                        <!-- TODO: PRINT OUT COURSES -->
-                        <?php
-// $sql = "SELECT examId, timeDuration, courseCode, courseTitle FROM Course_Student cs JOIN Course c ON cs.courseId=c.courseId JOIN Exam e ON c.courseId=e.courseId WHERE cs.username=$username";
 
+                        <?php
 $sql = "
     SELECT examId, timeDuration, courseCode, courseTitle
     FROM Course_Student cs, Course c, Exam e
@@ -99,6 +98,7 @@ $queryResult = mysqli_query($conn, $sql);
 
 while ($info = mysqli_fetch_assoc($queryResult)) {
     ?>
+                        <!-- Print each pending exam -->
                         <div class="exam-item">
                             <span class="course-code"><?php echo $info['courseCode'] ?> </span>
                             <div>
@@ -120,34 +120,7 @@ while ($info = mysqli_fetch_assoc($queryResult)) {
 ;
 ?>
 
-                        <!-- <div class="exam-item">
-                            <span class="course-code"> EEG 509 </span>
-                            <div>
-                                <p class="course-name"> Electromagnetic Wave Theory </p>
-                                <span class="duration"> Duration: 00:20:00
-                                </span>
-                            </div>
-                            <button class="start-exam"
-                                onclick="window.location.href='views/take-exam.php?examid=<?php echo 1 ?>'">
-                                Start Exam <span> &#x25b6; </span>
-                            </button>
-                            <div>
-                            </div>
-                        </div>
 
-                        <div class="exam-item">
-                            <span class="course-code"> EEG 203 </span>
-                            <div>
-                                <p class="course-name"> Signals and Systems </p>
-                                <span class="duration"> Duration: 01:20:00 </span>
-                            </div>
-                            <button class="start-exam"
-                                onclick="window.location.href='views/take-exam.php?examid=<?php echo 1 ?>'">
-                                Start Exam <span> &#x25b6; </span>
-                            </button>
-                            <div>
-                            </div>
-                        </div> -->
 
                     </div>
                 </div>
@@ -159,10 +132,39 @@ while ($info = mysqli_fetch_assoc($queryResult)) {
                 <div class="tab-flex-cont">
                     <div class="actual-tab-content">
                         <?php
-if (empty($examResults)) {
+if (mysqli_num_rows($examResults) == 0) {
     echo "<h3> You have no results yet. </h3>";
     echo "<p> Start by taking an exam. </p> ";
-}?>
+
+    mysqli_data_seek($examResults, 0);
+} else {
+
+    while ($examResult = mysqli_fetch_assoc($examResults)) {
+        $sql = "SELECT c.courseCode, c.courseTitle FROM Exam e, Course c WHERE e.examId = " . $examResult['examId'] . " and e.courseId = c.courseId";
+        $result = mysqli_query($conn, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+
+                        <!-- Show each result -->
+                        <section class="result-cont">
+                            <div class="result-item" data-toggle="collapse" data-target="#result-1">
+                                <span class="course-code"> <?php echo $row['courseCode'] ?> </span>
+                                <div>
+                                    <p class="course-name"> <?php echo $row['courseTitle'] ?> </p>
+                                </div>
+                                <span class="collapse-icon"> &#8964; </span>
+                                <div> </div>
+                            </div>
+                            <div class="result-details collapse" id="result-1">
+                                <p> Score: <span class="score"> <?php echo $examResult['score'] ?> </span> out of <span
+                                        class="score-ovrl"> 30 </span>
+                                </p>
+                                <p> Submitted: <span class="submit-time"> 23rd January, 2019. 14:45:35 </span> </p>
+                            </div>
+                        </section>
+
+                        <?php }}}?>
 
                     </div>
                 </div>
@@ -224,11 +226,6 @@ if (empty($examResults)) {
     });
 
 
-    function startExam() {
-        //code
-        var phpCode = "jj"
-        document.querySelector(".exam-item").innerHTML = document.querySelector(".exam-item").innerHTML + phpCode;
-    };
     </script>
 
 </body>
