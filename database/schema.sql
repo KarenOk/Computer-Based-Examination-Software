@@ -66,11 +66,12 @@ CREATE TABLE IF NOT EXISTS Question (
 
 
 CREATE TABLE IF NOT EXISTS Student_Result (
-    studentId VARCHAR(255) PRIMARY KEY NOT NULL,
+    studentId VARCHAR(255) NOT NULL,
     examId INT NOT NULL,
     score INT,
     FOREIGN KEY (studentId) REFERENCES Student(username),
-    FOREIGN KEY (examId) REFERENCES Exam(examId)
+    FOREIGN KEY (examId) REFERENCES Exam(examId),
+    PRIMARY KEY (studentId, examId)
 );
 
 
@@ -103,6 +104,7 @@ SHOW TABLES;
 -- DESCRIBE Course;
 -- DESCRIBE Exam;
 -- DESCRIBE Question;
+-- DESCRIBE Student_Result;
 
 
 -- Load Student Data from CSV file
@@ -191,6 +193,8 @@ IGNORE 1 ROWS
 -- DROP TABLE Course;
 -- DROP TABLE Exam;
 -- DROP TABLE Question;
+-- DROP TABLE Student_Result;
+
 
 -- The courses a student is offering
 SELECT Course.courseCode, courseTitle, instruction, timeDuration, activated, createdAt, lastModified, Exam.courseId
