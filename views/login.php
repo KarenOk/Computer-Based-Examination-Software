@@ -128,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main>
         <p> Online Examination System </p>
         <button onclick="toggleModal()"> Login </button>
-        <?php echo $sql ?>
     </main>
 
     <section class="overlay" aria-hidden="false">
