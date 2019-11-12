@@ -1,11 +1,5 @@
 <!-- TODO: restrict anyhow movement  -->
 
-<!-- TODO: Submit on countdown  -->
-
-<!-- TODO: Send total questions along  -->
-
-
-
 <?php
 session_start();
 ini_set("display_errors", 1); // Display errors
@@ -66,7 +60,7 @@ $questionsResult = mysqli_query($conn, $sql);
 </head>
 
 <body id="exam">
-    <s class="wrapper">
+    <div class="wrapper">
         <!-- Sidebar and Navigation-->
         <nav id="sidebar">
             <div class="sidebar-header">
@@ -110,6 +104,7 @@ mysqli_data_seek($questionsResult, 0);
 
         </nav>
 
+
         <!-- Main Content-->
         <main>
             <!-- Home Tab -->
@@ -144,10 +139,10 @@ mysqli_data_seek($questionsResult, 0);
                         </header>
 
 
-                    <form method="POST" action="../process/submit-exam.php" id="examForm">
+                        <form method="POST" action="../process/submit-exam.php" id="examForm">
 
-                        <?php
-$i = 1;
+                            <?php
+$i = 0;
 while ($question = mysqli_fetch_assoc($questionsResult)) {
     $ques = $question['question'];
     $quesId = $question['questionId'];
@@ -158,77 +153,78 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
     $option5 = $question['option5'];
     $answer = $question['answer'];
 
-    // echo var_dump($question);
+    $i++;
     ?>
 
-                        <section class="question-cont">
-                            <span> Q<?php echo $i ?>: </span>
-                            <label class="question"> <?php echo stripcslashes($ques) ?> </label>
-                            <section class="options-group">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input"
-                                            name="answer[<?php echo $quesId ?>]"
-                                            value=' <?php echo stripcslashes($option1) ?> '> A:
-                                        <?php echo stripcslashes($option1); ?>
-                                        '</label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input"
-                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option2 ?> '>
-                                        B:
-                                        <?php echo stripcslashes($option2) ?>
-                                        '</label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input"
-                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option3 ?> '>
-                                        C:
-                                        <?php echo stripcslashes($option3) ?>
-                                        '</label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input"
-                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option4 ?> '>
-                                        D:
-                                        <?php echo stripcslashes($option4) ?>
-                                        '</label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input"
-                                            name="answer[<?php echo $quesId ?>]" value=' <?php echo $option5 ?> '>
-                                        E:
-                                        <?php echo stripcslashes($option5) ?>
-                                        '</label>
-                                </div>
+                            <section class="question-cont">
+                                <span> Q<?php echo $i ?>: </span>
+                                <label class="question"> <?php echo stripcslashes($ques) ?> </label>
+                                <section class="options-group">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input"
+                                                name="answer[<?php echo $quesId ?>]"
+                                                value=' <?php echo stripcslashes($option1) ?> '> A:
+                                            <?php echo stripcslashes($option1); ?>
+                                            '</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input"
+                                                name="answer[<?php echo $quesId ?>]" value=' <?php echo $option2 ?> '>
+                                            B:
+                                            <?php echo stripcslashes($option2) ?>
+                                            '</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input"
+                                                name="answer[<?php echo $quesId ?>]" value=' <?php echo $option3 ?> '>
+                                            C:
+                                            <?php echo stripcslashes($option3) ?>
+                                            '</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input"
+                                                name="answer[<?php echo $quesId ?>]" value=' <?php echo $option4 ?> '>
+                                            D:
+                                            <?php echo stripcslashes($option4) ?>
+                                            '</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input"
+                                                name="answer[<?php echo $quesId ?>]" value=' <?php echo $option5 ?> '>
+                                            E:
+                                            <?php echo stripcslashes($option5) ?>
+                                            '</label>
+                                    </div>
 
-                                <input type="hidden" name="correct_answer[<?php echo $quesId ?>]"
-                                    value='<?php echo $answer ?>' />
+                                    <input type="hidden" name="correct_answer[<?php echo $quesId ?>]"
+                                        value='<?php echo $answer ?>' />
 
+                                </section>
                             </section>
-                        </section>
-                        <?php
-$i++;
+                            <?php
 }
 ;
 ?>
-                        <input type="hidden" name="examId" value='<?php echo $examid ?>' />
-                        <input type="hidden" name="studentId" value='<?php echo $username ?>' />
+                            <input type="hidden" name="examId" value='<?php echo $examid ?>' />
+                            <input type="hidden" name="studentId" value='<?php echo $username ?>' />
+                            <input type="hidden" name="noOfQuestions" value='<?php echo $i ?>' />
+                            <input type="hidden" name="submitTime" />
 
 
-                        <section class="question-control">
-                            <button type="button" class="btn" onclick="nav(-1)"> &laquo; Previous </button>
-                            <button type="button" class="btn" onclick="nav(1)"> Next &raquo; </button>
+                            <section class="question-control">
+                                <button type="button" class="btn" onclick="nav(-1)"> &laquo; Previous </button>
+                                <button type="button" class="btn" onclick="nav(1)"> Next &raquo; </button>
 
-                        </section>
+                            </section>
 
-                    </form>
+                        </form>
 
-                </div>
+                    </div>
 
                 </div>
 
@@ -240,170 +236,179 @@ $i++;
 
 
 
-        </div>
+    </div>
 
-        <!-- jQuery CDN - Slim version (=without AJAX) -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-        </script>
-        <!-- Bootstrap JS -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
-        </script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
+    </script>
 
 
 
-        <script>
-        let started = false;
+    <script>
+    let started = false;
 
-        $(document).ready(function() {
-            $(".menu").on("click", function() {
-                $('#sidebar').toggleClass('active');
-                $('main').toggleClass('active');
-            });
-
+    $(document).ready(function() {
+        $(".menu").on("click", function() {
+            $('#sidebar').toggleClass('active');
+            $('main').toggleClass('active');
         });
 
+    });
 
-        // After clicking Start, remove Instructions
-        $(".start-exam").on("click", function(event) {
+
+    // After clicking Start, remove Instructions
+    $(".start-exam").on("click", function(event) {
+        $(`.tab.instructions`).removeClass("show");
+        $(`.tab.questions`).addClass("show");
+        started = true;
+        countDown = window.setInterval(timer, 1001);
+    });
+
+
+    $("#sidebar li").on("click", function(event) {
+
+        // After clicking any question number, remove exam instructions
+        if (started === false) {
             $(`.tab.instructions`).removeClass("show");
             $(`.tab.questions`).addClass("show");
             started = true;
             countDown = window.setInterval(timer, 1001);
-        });
-
-
-        $("#sidebar li").on("click", function(event) {
-
-            // After clicking any question number, remove exam instructions
-            if (started === false) {
-                $(`.tab.instructions`).removeClass("show");
-                $(`.tab.questions`).addClass("show");
-                started = true;
-                countDown = window.setInterval(timer, 1001);
-            };
-
-        });
-
-        let questionContainers = document.querySelectorAll(".question-cont");
-        let questionNavList = document.querySelectorAll(".question-no-list li");
-        let questionControls = document.querySelectorAll(".question-control .btn");
-        let currentQuestion = 0;
-
-
-        function showQuestion(i) {
-            questionContainers.forEach(elem => {
-                elem.classList.remove("show");
-            })
-
-            questionNavList.forEach(elem => {
-                elem.classList.remove("active");
-            });
-
-            questionContainers[i - 1].classList.add("show");
-            questionNavList[i - 1].classList.add("active");
-
-            currentQuestion = i - 1;
-
-            // Check boundaries of prev and next buttons
-            questionControls[0].disabled = (currentQuestion === 0) ? true : false;
-            questionControls[1].disabled = (currentQuestion >= questionNavList.length - 1) ? true : false;
-        }
-
-        function nav(offset) {
-            if (currentQuestion + offset >= 0 && currentQuestion + offset < questionNavList.length) {
-                showQuestion(currentQuestion + offset + 1); // 1 is added to account for the -1 in showQuestion function
-            };
         };
 
-        let countDown;
-        let durationElem = document.querySelector(".timer .duration");
-        let duration = durationElem.innerText;
-        let splitDuration = duration.split(":");
-        let durationHour = Number(splitDuration[0]);
-        let durationMin = Number(splitDuration[1]);
-        let durationSec = Number(splitDuration[2]);
+    });
+
+    let questionContainers = document.querySelectorAll(".question-cont");
+    let questionNavList = document.querySelectorAll(".question-no-list li");
+    let questionControls = document.querySelectorAll(".question-control .btn");
+    let currentQuestion = 0;
 
 
-        function timer() {
-            if (durationSec === 0) {
-                durationSec = 59;
-                if (durationMin === 0) {
-                    durationMin = 59
-                    durationHour--;
-                } else {
-                    durationMin--;
-                }
+    function showQuestion(i) {
+        questionContainers.forEach(elem => {
+            elem.classList.remove("show");
+        })
+
+        questionNavList.forEach(elem => {
+            elem.classList.remove("active");
+        });
+
+        questionContainers[i - 1].classList.add("show");
+        questionNavList[i - 1].classList.add("active");
+
+        currentQuestion = i - 1;
+
+        // Check boundaries of prev and next buttons
+        questionControls[0].disabled = (currentQuestion === 0) ? true : false;
+        questionControls[1].disabled = (currentQuestion >= questionNavList.length - 1) ? true : false;
+    }
+
+    function nav(offset) {
+        if (currentQuestion + offset >= 0 && currentQuestion + offset < questionNavList.length) {
+            showQuestion(currentQuestion + offset + 1); // 1 is added to account for the -1 in showQuestion function
+        };
+    };
+
+    let countDown;
+    let durationElem = document.querySelector(".timer .duration");
+    let duration = durationElem.innerText;
+    let splitDuration = duration.split(":");
+    let durationHour = Number(splitDuration[0]);
+    let durationMin = Number(splitDuration[1]);
+    let durationSec = Number(splitDuration[2]);
+
+
+    function timer() {
+        if (durationSec === 0) {
+            durationSec = 59;
+            if (durationMin === 0) {
+                durationMin = 59
+                durationHour--;
             } else {
-                durationSec--;
+                durationMin--;
             }
-
-            // Hours is only padded if its a single digit
-            duration = (String(durationHour).length < 2 ? padNo(durationHour, 2) : durationHour) + ":" + padNo(
-                durationMin, 2) + ":" + padNo(durationSec, 2);
-            durationElem.innerText = duration;
-
-            // Stop at 00:00:00
-            if (durationSec === 0 && durationMin === 0 && durationHour === 0) {
-                window.clearInterval(countDown);
-            }
+        } else {
+            durationSec--;
         }
 
-        // Function to pad numbers
-        function padNo(num, size) {
-            numStr = String(num)
-            if (numStr.length < size) {
-                while (numStr.length < size) {
-                    numStr = "0" + numStr
-                }
+        // Hours is only padded if its a single digit
+        duration = (String(durationHour).length < 2 ? padNo(durationHour, 2) : durationHour) + ":" + padNo(
+            durationMin, 2) + ":" + padNo(durationSec, 2);
+        durationElem.innerText = duration;
+
+        // Stop at 00:00:00
+        if (durationSec === 0 && durationMin === 0 && durationHour === 0) {
+            window.clearInterval(countDown);
+
+            let submitTime = (new Date()).toISOString().slice(0, 19).replace('T', ' ');
+            document.querySelector('input[name="submitTime"').value = submitTime;
+            document.getElementById("examForm").submit();
+        }
+    }
+
+    // Function to pad numbers
+    function padNo(num, size) {
+        numStr = String(num)
+        if (numStr.length < size) {
+            while (numStr.length < size) {
+                numStr = "0" + numStr
             }
-            return numStr;
+        }
+        return numStr;
+    }
+
+
+    function ConfirmSubmit() {
+        // Get submission time
+        let submitTime = (new Date()).toISOString().slice(0, 19).replace('T', ' ');
+        document.querySelector('input[name="submitTime"').value = submitTime;
+
+        return confirm("Are you sure you want to submit?");
+    }
+
+    // TODO: Put this in a separate file
+
+    var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var tmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+        "November", "December"
+    ];
+
+    function GetClock() {
+        var d = new Date();
+        var nday = d.getDay(),
+            nmonth = d.getMonth(),
+            ndate = d.getDate(),
+            nyear = d.getFullYear();
+        var nhour = d.getHours(),
+            nmin = d.getMinutes(),
+            ap;
+        if (nhour == 0) {
+            ap = " AM";
+            nhour = 12;
+        } else if (nhour < 12) {
+            ap = " AM";
+        } else if (nhour == 12) {
+            ap = " PM";
+        } else if (nhour > 12) {
+            ap = " PM";
+            nhour -= 12;
         }
 
+        if (nmin <= 9) nmin = "0" + nmin;
 
-        function ConfirmSubmit() {
-            return confirm("Are you sure you want to submit?");
-        }
+        var clocktext = "" + tday[nday] + ", <br> " + tmonth[nmonth] + " " + ndate + ", " + nyear + " <br> " +
+            nhour + ":" + nmin + ap + "";
+        document.getElementById('clockbox').innerHTML = clocktext;
+    }
 
-
-        var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        var tmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-            "November", "December"
-        ];
-
-        function GetClock() {
-            var d = new Date();
-            var nday = d.getDay(),
-                nmonth = d.getMonth(),
-                ndate = d.getDate(),
-                nyear = d.getFullYear();
-            var nhour = d.getHours(),
-                nmin = d.getMinutes(),
-                ap;
-            if (nhour == 0) {
-                ap = " AM";
-                nhour = 12;
-            } else if (nhour < 12) {
-                ap = " AM";
-            } else if (nhour == 12) {
-                ap = " PM";
-            } else if (nhour > 12) {
-                ap = " PM";
-                nhour -= 12;
-            }
-
-            if (nmin <= 9) nmin = "0" + nmin;
-
-            var clocktext = "" + tday[nday] + ", <br> " + tmonth[nmonth] + " " + ndate + ", " + nyear + " <br> " +
-                nhour + ":" + nmin + ap + "";
-            document.getElementById('clockbox').innerHTML = clocktext;
-        }
-
-        GetClock();
-        setInterval(GetClock, 1000);
-        </script>
-
+    GetClock();
+    setInterval(GetClock, 1000);
+    </script>
+    </div>
 </body>
 
 </html>

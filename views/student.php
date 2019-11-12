@@ -5,11 +5,14 @@
 
 <?php
 // session_start();
+
+include "helpers/timeout.php"; // Handle the session timeout after inactivity
+
 ini_set("display_errors", 1);
 $username = $_SESSION["username"];
 
-$queryResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
-$studentObj = mysqli_fetch_object($queryResult);
+$studentResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
+$studentObj = mysqli_fetch_object($studentResult);
 
 $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId=$username");
 ?>
@@ -94,9 +97,9 @@ $sql = "
     FROM Course_Student cs, Course c, Exam e
     WHERE cs.username=$username and c.courseId=e.courseId and cs.courseId=c.courseId
     ";
-$queryResult = mysqli_query($conn, $sql);
+$studentResult = mysqli_query($conn, $sql);
 
-while ($info = mysqli_fetch_assoc($queryResult)) {
+while ($info = mysqli_fetch_assoc($studentResult)) {
     ?>
                         <!-- Print each pending exam -->
                         <div class="exam-item">
@@ -138,17 +141,19 @@ if (mysqli_num_rows($examResults) == 0) {
 
     mysqli_data_seek($examResults, 0);
 } else {
+    $i = 0;
 
     while ($examResult = mysqli_fetch_assoc($examResults)) {
         $sql = "SELECT c.courseCode, c.courseTitle FROM Exam e, Course c WHERE e.examId = " . $examResult['examId'] . " and e.courseId = c.courseId";
         $result = mysqli_query($conn, $sql);
+        $i++;
 
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
 
                         <!-- Show each result -->
                         <section class="result-cont">
-                            <div class="result-item" data-toggle="collapse" data-target="#result-1">
+                            <div class="result-item" data-toggle="collapse" data-target="#result-<?php echo $i ?>">
                                 <span class="course-code"> <?php echo $row['courseCode'] ?> </span>
                                 <div>
                                     <p class="course-name"> <?php echo $row['courseTitle'] ?> </p>
@@ -156,11 +161,12 @@ if (mysqli_num_rows($examResults) == 0) {
                                 <span class="collapse-icon"> &#8964; </span>
                                 <div> </div>
                             </div>
-                            <div class="result-details collapse" id="result-1">
+                            <div class="result-details collapse" id="result-<?php echo $i ?>">
                                 <p> Score: <span class="score"> <?php echo $examResult['score'] ?> </span> out of <span
-                                        class="score-ovrl"> 30 </span>
+                                        class="score-ovrl"> <?php echo $examResult['scoreOverall'] ?> </span>
                                 </p>
-                                <p> Submitted: <span class="submit-time"> 23rd January, 2019. 14:45:35 </span> </p>
+                                <p> Submitted: <span class="submit-time"> <?php echo $examResult['submitTime'] ?>
+                                    </span> </p>
                             </div>
                         </section>
 
@@ -199,6 +205,12 @@ if (mysqli_num_rows($examResults) == 0) {
             $('main').toggleClass('active');
         });
 
+        let resultSubmitTimes = document.querySelectorAll(".result-cont .submit-time");
+        resultSubmitTimes.forEach(elem => {
+            let time = GetClock(new Date(elem.innerText.trim().replace(' ', 'T')));
+            elem.innerHTML = time;
+        });
+
     });
 
     $("#sidebar li").on("click", function(event) {
@@ -225,7 +237,39 @@ if (mysqli_num_rows($examResults) == 0) {
 
     });
 
+    var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var tmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+        "November", "December"
+    ];
 
+    function GetClock(d) {
+        console.log(d);
+        var nday = d.getDay(),
+            nmonth = d.getMonth(),
+            ndate = d.getDate(),
+            nyear = d.getFullYear();
+        var nhour = d.getHours(),
+            nmin = d.getMinutes(),
+            ap;
+        if (nhour == 0) {
+            ap = " AM";
+            nhour = 12;
+        } else if (nhour < 12) {
+            ap = " AM";
+        } else if (nhour == 12) {
+            ap = " PM";
+        } else if (nhour > 12) {
+            ap = " PM";
+            nhour -= 12;
+        }
+
+        if (nmin <= 9) nmin = "0" + nmin;
+
+        var clocktext = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " <br>" +
+            nhour + ":" + nmin + ap + "";
+
+        return clocktext;
+    }
     </script>
 
 </body>
