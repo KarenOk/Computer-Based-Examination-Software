@@ -11,6 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $score = 0;
     $studentId = $_POST['studentId'];
     $examId = $_POST['examId'];
+    $submitTime = $_POST['submitTime'];
+    $noOfQuestions = $_POST['noOfQuestions'];
 
     foreach ($_POST['answer'] as $index => $answer) {
         // echo $index . " : " . $answer . "<br>";
@@ -23,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     echo "<h1> Your Score is: " . $score . "</h1>";
-    $sql = "INSERT INTO Student_Result VALUES ($studentId, $examId, $score) ON DUPLICATE KEY UPDATE score=$score;";
+    $sql = "INSERT INTO Student_Result VALUES ($studentId, $examId, $score, $noOfQuestions, '$submitTime') ON DUPLICATE KEY UPDATE score=$score;";
+    echo $sql;
     $result = mysqli_query($conn, $sql);
 
     if (!$result) {
