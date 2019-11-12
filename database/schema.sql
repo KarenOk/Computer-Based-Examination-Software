@@ -68,7 +68,9 @@ CREATE TABLE IF NOT EXISTS Question (
 CREATE TABLE IF NOT EXISTS Student_Result (
     studentId VARCHAR(255) NOT NULL,
     examId INT NOT NULL,
-    score INT,
+    score INT NOT NULL,
+    scoreOverall INT NOT NULL,
+    submitTime DATETIME NOT NULL,
     FOREIGN KEY (studentId) REFERENCES Student(username),
     FOREIGN KEY (examId) REFERENCES Exam(examId),
     PRIMARY KEY (studentId, examId)
