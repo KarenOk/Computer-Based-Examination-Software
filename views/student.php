@@ -11,8 +11,8 @@ include "helpers/timeout.php"; // Handle the session timeout after inactivity
 ini_set("display_errors", 1);
 $username = $_SESSION["username"];
 
-$studentResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
-$studentObj = mysqli_fetch_object($studentResult);
+$queryResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
+$studentObj = mysqli_fetch_object($queryResult);
 
 $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId=$username");
 ?>
@@ -97,10 +97,16 @@ $sql = "
     FROM Course_Student cs, Course c, Exam e
     WHERE cs.username=$username and c.courseId=e.courseId and cs.courseId=c.courseId
     ";
-$studentResult = mysqli_query($conn, $sql);
 
-while ($info = mysqli_fetch_assoc($studentResult)) {
-    ?>
+$queryResult = mysqli_query($conn, $sql);
+if (mysqli_num_rows($queryResult) == 0) {
+    echo "<h3 style='text-align:center'> You have no pending exams. </h3>";
+
+    mysqli_data_seek($queryResult, 0);
+} else {
+    $i = 0;
+    while ($info = mysqli_fetch_assoc($queryResult)) {
+        ?>
                         <!-- Print each pending exam -->
                         <div class="exam-item">
                             <span class="course-code"><?php echo $info['courseCode'] ?> </span>
@@ -119,7 +125,7 @@ while ($info = mysqli_fetch_assoc($studentResult)) {
                         </div>
 
                         <?php
-}
+}}
 ;
 ?>
 
@@ -243,7 +249,6 @@ if (mysqli_num_rows($examResults) == 0) {
     ];
 
     function GetClock(d) {
-        console.log(d);
         var nday = d.getDay(),
             nmonth = d.getMonth(),
             ndate = d.getDate(),
