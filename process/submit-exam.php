@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     echo "<h1> Your Score is: " . $score . "</h1>";
-    $sql = "INSERT INTO Student_Result VALUES ($studentId, $examId, $score, $noOfQuestions, '$submitTime') ON DUPLICATE KEY UPDATE score=$score;";
+    $sql = "INSERT INTO Student_Result VALUES ($studentId, $examId, $score, $noOfQuestions, '$submitTime') ON DUPLICATE KEY UPDATE score=$score, submitTime='$submitTime';";
     echo $sql;
     $result = mysqli_query($conn, $sql);
 
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // header("location: ../index.php");
 
     } else {
-        header("location: ../index.php");
+        header("location: ../index.php#results");
     }
     ;
 }
