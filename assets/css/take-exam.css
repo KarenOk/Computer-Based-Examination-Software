@@ -184,6 +184,12 @@ div.submit {
     justify-content: space-between;
     margin-bottom: 40px;
     padding: 10px 20px;
+    color: rgb(112, 56, 56);
+}
+
+.tab header h1 {
+    font-weight: 700;
+    color: #D49E4E;
 }
 
 #clockbox {
