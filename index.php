@@ -1,12 +1,14 @@
 <?php
 session_start();
 ini_set("display_errors", 1);
+// ini_set('session.gc_maxlifetime', 3600);
 
 if (!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === false) {
     header("location: views/login.php");
     exit;
 }
 
+include "helpers/timeout.php"; // Handle the session timeout after inactivity
 include "helpers/connect.php";
 
 ?>
@@ -31,6 +33,7 @@ if ($_SESSION["usertype"] === "Administrator") {
 } elseif ($_SESSION["usertype"] === "Student") {
     include "views/student.php";
 }
+
 ?>
 
     <button style="background-color: black; width: 6em;"> <a href="process/logout.php"
