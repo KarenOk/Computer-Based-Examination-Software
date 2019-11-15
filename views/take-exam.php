@@ -1,5 +1,8 @@
 <!-- TODO: restrict anyhow movement  -->
 
+<!-- TODO: Cache exam page with service workers  -->
+
+
 <?php
 session_start();
 ini_set("display_errors", 1); // Display errors
@@ -97,7 +100,6 @@ mysqli_data_seek($questionsResult, 0);
 
             <div class="submit text-center">
                 <button class="btn btn-lg" form="examForm" onclick="return ConfirmSubmit()">
-                    <!-- <a href="../process/submit-exam.php"> Submit </a> -->
                     Submit
                 </button>
             </div>
@@ -166,7 +168,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
                                                 name="answer[<?php echo $quesId ?>]"
                                                 value=' <?php echo stripcslashes($option1) ?> '> A:
                                             <?php echo stripcslashes($option1); ?>
-                                            '</label>
+                                        </label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -174,7 +176,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
                                                 name="answer[<?php echo $quesId ?>]" value=' <?php echo $option2 ?> '>
                                             B:
                                             <?php echo stripcslashes($option2) ?>
-                                            '</label>
+                                        </label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -182,7 +184,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
                                                 name="answer[<?php echo $quesId ?>]" value=' <?php echo $option3 ?> '>
                                             C:
                                             <?php echo stripcslashes($option3) ?>
-                                            '</label>
+                                        </label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -190,7 +192,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
                                                 name="answer[<?php echo $quesId ?>]" value=' <?php echo $option4 ?> '>
                                             D:
                                             <?php echo stripcslashes($option4) ?>
-                                            '</label>
+                                        </label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -198,7 +200,7 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
                                                 name="answer[<?php echo $quesId ?>]" value=' <?php echo $option5 ?> '>
                                             E:
                                             <?php echo stripcslashes($option5) ?>
-                                            '</label>
+                                        </label>
                                     </div>
 
                                     <input type="hidden" name="correct_answer[<?php echo $quesId ?>]"
@@ -251,15 +253,70 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
 
     <script>
     let started = false;
+    var answers;
+    var inputs = document.querySelectorAll(".question-cont input[type='radio']");
+    var studentId = document.querySelector("input[name='studentId']").value;
+    var examId = document.querySelector("input[name='examId']").value;
+    var store = `exam-${studentId}-${examId}`;
+    var timeStore = `time-${studentId}-${examId}`;
 
+
+    // Define what happens when page loads
     $(document).ready(function() {
         $(".menu").on("click", function() {
             $('#sidebar').toggleClass('active');
             $('main').toggleClass('active');
-        });
+        })
+
+        console.log("Loaded!");
+        // Check if the storage object exists
+        if (localStorage[store]) {
+            document.querySelector(".start-exam").innerHTML = "RESUME <span> &#x25b6; </span>";
+            restoreForm();
+        } else {
+            answers = new Array(inputs.length).fill(null);
+        }
 
     });
 
+
+    // Restore form values on resume
+    function restoreForm() {
+        var restoredAnswers = JSON.parse(localStorage.getItem(store));
+        answers = restoredAnswers;
+
+        // Replace time with remaining time
+        timeLeft = localStorage.getItem(timeStore);
+        document.querySelector(".timer .duration").innerText = localStorage.getItem(timeStore);
+        document.querySelector(".instructions .duration").innerText = timeLeft;
+        duration = timeLeft;
+        splitDuration = duration.split(":");
+        durationHour = Number(splitDuration[0]);
+        durationMin = Number(splitDuration[1]);
+        durationSec = Number(splitDuration[2]);
+
+
+        var counter = 0;
+
+        inputs.forEach((elem) => {
+            if (elem.type === "radio") {
+                elem.checked = restoredAnswers[counter];
+                counter++;
+            }
+        });
+
+    }
+
+    // Add event listener that updates storage on change
+    inputs.forEach((elem, index) => {
+        addEventListener('change', () => {
+            if (elem.type === "radio") {
+                answers[index] = elem.checked;
+                localStorage.setItem(store, JSON.stringify(answers));
+            }
+
+        });
+    });
 
     // After clicking Start, remove Instructions
     $(".start-exam").on("click", function(event) {
@@ -340,6 +397,8 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
             durationMin, 2) + ":" + padNo(durationSec, 2);
         durationElem.innerText = duration;
 
+        localStorage.setItem(timeStore, duration);
+
         // Stop at 00:00:00
         if (durationSec === 0 && durationMin === 0 && durationHour === 0) {
             window.clearInterval(countDown);
@@ -363,11 +422,16 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
 
 
     function ConfirmSubmit() {
-        // Get submission time
         let submitTime = (new Date()).toISOString().slice(0, 19).replace('T', ' ');
-        document.querySelector('input[name="submitTime"').value = submitTime;
+        document.querySelector('input[name="submitTime"]').value = submitTime;
 
-        return confirm("Are you sure you want to submit?");
+        if (!confirm("Are you sure you want to submit?")) {
+            return false;
+        }
+
+        // Clear local storage on submit
+        localStorage.removeItem(store);
+        localStorage.removeItem(timeStore);
     }
 
     // TODO: Put this in a separate file
