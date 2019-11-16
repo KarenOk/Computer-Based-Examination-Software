@@ -7,7 +7,7 @@ USE CBT;
 CREATE TABLE IF NOT EXISTS Student (
     username VARCHAR(15) PRIMARY KEY NOT NULL,
     firstName CHAR(100) NOT NULL,
-    LastName CHAR(100) NOT NULL,
+    lastName CHAR(100) NOT NULL,
     imageUrl VARCHAR(255),
     gender VARCHAR(50),
     pw VARCHAR(255) NOT NULL -- password
