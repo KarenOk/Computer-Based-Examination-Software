@@ -14,7 +14,7 @@
 
 <body>
     <div class="wrapper">
-        <!-- Sidebar and Navigation-->console.log(event.target);
+        <!-- Sidebar and Navigation-->
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h1> University <br> of <br> Lagos </h1>
@@ -54,7 +54,6 @@
                     <?php echo $_SESSION["username"] ?>!
                 </h1>
                 <p class="time"> </p>
-                <p> You're an <?php echo $_SESSION["usertype"] ?> </p>
             </div>
 
             <!-- Manage Users Tab  -->
@@ -68,7 +67,7 @@
                         <form action="" class="search">
                             <input type="text" name="search-users" id="search-users" placeholder="Search...">
                         </form>
-                        <button data-toggle="modal" data-target="#create-course" class="add"> Add User </button>
+                        <button data-toggle="modal" data-target="#create-user" class="add"> Add User </button>
                     </div>
                 </header>
                 <section class="user-table table-responsive">
@@ -87,64 +86,117 @@
                         <tbody>
 
                             <?php
-$sql = "SELECT * FROM Student
+$sql = "SELECT *, 'Student' as usertype FROM Student
                                     UNION
-                                    SELECT * FROM Examiner
+                                    SELECT *, 'Examiner' as usertype FROM Examiner
                                     UNION
-                                    SELECT username, firstName, LastName, imageUrl, '-' as gender, pw FROM Administrator
+                                    SELECT username, firstName, LastName, imageUrl, '-' as gender, pw , 'Administrator' as usertype FROM Administrator
                                     ORDER BY firstName ASC";
 
 $users = mysqli_query($conn, $sql);
 while ($user = mysqli_fetch_array($users)) {
-    echo "
-    <tr>
-    <td> <img class='user-image' src='assets{$user['imageUrl']}' alt='user image'>
-    </td>
-    <td>{$user['username']}</td>
-    <td>{$user['firstName']} {$user['LastName']}</td>
-    <td>{$user['gender']} </td>
-    <td>{$user['usertype']}</td>
-    <td>
-        EEG502 <br>
-        CPE520 <br>
-        GEG510 <br>
-    </td>
-    <td>
-        <img class='user-action' src='assets/images/pencil-edit-button.svg' alt='Edit'
-            title='Edit'>
-        <img class='user-action' src='assets/images/delete.svg' alt='Delete' title='Delete'>
-        <img class='user-action' src='assets/images/padlock.svg' alt='Reset Password'
-            title='Reset Password'>
-    </td>
-</tr>
-    ";
-}
-?>
+    ?>
+                            <tr>
+                                <td> <img class='user-image' src='assets<?php echo $user['imageUrl'] ?>'
+                                        alt='<?php echo $user['firstName'] . " " . $user['LastName'] ?>'>
+                                </td>
+                                <td> <?php echo $user['username'] ?> </td>
+                                <td> <?php echo $user['firstName'] . " " . $user['LastName'] ?> </td>
+                                <td> <?php echo $user['gender'] ?> </td>
+                                <td> <?php echo $user['usertype'] ?> </td>
+                                <td>
+                                    EEG502 <br>
+                                    CPE520 <br>
+                                    GEG510 <br>
+                                </td>
+                                <td>
+                                    <img class='user-action' src='assets/images/pencil-edit-button.svg' alt='Edit'
+                                        title='Edit'>
+                                    <img class='user-action' src='assets/images/delete.svg' alt='Delete' title='Delete'>
+                                    <img class='user-action' src='assets/images/padlock.svg' alt='Reset Password'
+                                        title='Reset Password'>
+                                </td>
+                            </tr>
+                            <?php }?>
                         </tbody>
                     </table>
                 </section>
 
+                <!-- Create User Modal -->
                 <div id="create-user" class="modal" tabindex="-1" role="dialog" aria-labelledby="Add New User"
-                    aria-describedby="Create a user with the form">
-                    <section class="modal-dialog modal-dialog-centered" role="document">
-                        <article class="modal-content">
+                    aria-describedby="Create a course with the form">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <section class="modal-content">
+
                             <header class="modal-header">
-                                <h5 class="modal-title">Add User</h5>
+                                <h5 class="modal-title">Register User </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </header>
+                            <!-- username,firstName,LastName,imageUrl,gender,password -->
 
-                            <main class="modal-body">
-                                <p>Modal body text goes here.</p>
-                            </main>
+                            <div class="modal-body">
+                                <form method="post" id="createUserForm" action="process/register-user.php">
+                                    <div class="form-group">
+                                        <label for="user-type">User Category</label>
+                                        <select class="form-control" id="user-type" name="user-type">
+                                            <option value="administrator">Admin</option>
+                                            <option value="student">Student</option>
+                                            <option value="examiner">Examiner</option>
+                                        </select>
+                                    </div>
 
-                            <footer class="modal-footer">
-                                <button type="button" class="btn btn-save">Save changes</button>
-                                <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
-                            </footer>
-                        </article>
-                    </section>
+                                    <div class="form-group">
+                                        <label for="username"> Username </label>
+                                        <input type="text" id="username" name="username" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="fname"> First Name </label>
+                                        <input type="text" id="fname" name="fname" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="lname"> Last Name </label>
+                                        <input type="text" id="lname" name="lname" class="form-control" required>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="user-gender">Gender</label>
+                                        <select class="form-control" id="user-gender" name="user-gender">
+                                            <option value="female">Female</option>
+                                            <option value="male">Male</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password"> Password </label>
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cpassword"> Confirm Password </label>
+                                        <input type="password" id="cpassword" name="cpassword" class="form-control"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="img-url"> Image URL </label>
+                                        <input type="text" id="img-url" name="img-url" class="form-control" required>
+                                    </div>
+
+                                    <footer class="modal-footer">
+                                        <button type="submit" class="btn btn-save">Save changes</button>
+                                        <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
+                                    </footer>
+                                </form>
+                            </div>
+
+                        </section>
+                    </div>
                 </div>
 
             </div>
@@ -177,33 +229,35 @@ while ($user = mysqli_fetch_array($users)) {
                         </thead>
                         <tbody>
                             <?php
-$sqlTwo = "SELECT * FROM Course
+$sql = "SELECT * FROM Course
     ORDER BY courseTitle ASC";
 
-$courses = mysqli_connect($conn, $sqlTwo);
-echo "<h1>$courses </h1>";
+$courses = mysqli_query($conn, $sql);
+
 while ($course = mysqli_fetch_array($courses)) {
-    echo "<tr>
-    <td>{$course['courseTitle']}</td>
-    <td>{$course['courseCode']} </td>
-    <td>
-        150408502 <br>
-        130459604 <br>
-        190559604 <br>
-    </td>
-    <td>
-        oluseyibo <br>
-        adelabu <br>
-    </td>
-    <td>
-        <img class='user-action' src='assets/images/pencil-edit-button.svg' alt='Edit'
-            title='Edit' aria-label='Edit Course'>
-        <img class='user-action' src='assets/images/users.svg' alt='Assign/Unassign Users'
-            title='Assign/Unassign Users' aria-label='Assign/Unassign Users to Course'>
-        <img class='user-action' src='assets/images/delete.svg' alt='Delete' title='Delete'
-            aria-label='Delete Course'>
-    </td>
-</tr>";
+    ?>
+                            <tr>
+                                <td> <?php echo $course['courseTitle'] ?></td>
+                                <td> <?php echo $course['courseCode'] ?> </td>
+                                <td>
+                                    150408502 <br>
+                                    130459604 <br>
+                                    190559604 <br>
+                                </td>
+                                <td>
+                                    oluseyibo <br>
+                                    adelabu <br>
+                                </td>
+                                <td>
+                                    <img class='user-action' src='assets/images/pencil-edit-button.svg' alt='Edit'
+                                        title='Edit' aria-label='Edit Course'>
+                                    <img class='user-action' src='assets/images/users.svg' alt='Assign/Unassign Users'
+                                        title='Assign/Unassign Users' aria-label='Assign/Unassign Users to Course'>
+                                    <img class='user-action' src='assets/images/delete.svg' alt='Delete' title='Delete'
+                                        aria-label='Delete Course'>
+                                </td>
+                            </tr>
+                            <?php
 }
 ?>
 
@@ -254,32 +308,31 @@ while ($course = mysqli_fetch_array($courses)) {
                     </table>
                 </section>
 
+
                 <!-- Create Course Modal -->
                 <div id="create-course" class="modal" tabindex="-1" role="dialog" aria-labelledby="Add New Course"
                     aria-describedby="Create a course with the form">
-                    <section class="modal-dialog modal-dialog-centered" role="document">
-                        <article class="modal-content">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <section class="modal-content">
+
                             <header class="modal-header">
-                                <h5 class="modal-title">Add Course</h5>
+                                <h5 class="modal-title">Register Course</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </header>
 
-                            <main class="modal-body">
-                                <form method="post">
-                                    <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+
+                            <div class="modal-body">
+                                <form method="post" id="createCourseForm" action="process/register-course.php">
+                                    <div class="form-group">
                                         <label for="ctitle"> Course Title </label>
-                                        <input type="text" id="ctitle" name="ctitle" class="form-control" required
-                                            value="<?php echo $username; ?>">
-                                        <span class="help-block"><?php echo $username_err; ?></span>
+                                        <input type="text" id="ctitle" name="ctitle" class="form-control" required>
                                     </div>
 
-                                    <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                                    <div class="form-group">
                                         <label for="ccode"> Course Code </label>
-                                        <input type="text" id="ctitle" name="ctitle" class="form-control" required
-                                            value="<?php echo $username; ?>">
-                                        <span class="help-block"><?php echo $username_err; ?></span>
+                                        <input type="text" id="ccode" name="ccode" class="form-control" required>
                                     </div>
 
                                     <footer class="modal-footer">
@@ -287,10 +340,10 @@ while ($course = mysqli_fetch_array($courses)) {
                                         <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
                                     </footer>
                                 </form>
-                            </main>
+                            </div>
 
-                        </article>
-                    </section>
+                        </section>
+                    </div>
                 </div>
 
             </div>
