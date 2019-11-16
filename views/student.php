@@ -73,15 +73,15 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
                 <div class="tab-flex-cont">
                     <div class="actual-tab-content">
 
-                        <img class="rounded-circle avatar" src="assets<?php echo $studentObj->imageUrl ?>"
+                        <!-- <img class="rounded-circle avatar" src="assets<?php echo $studentObj->imageUrl ?>" -->
+                        <img class="rounded-circle avatar" src="assets/images/student_female_3.jpg"
                             alt="Student avatar">
                         <h1 class="welcome-message">
                             <span class="greeting"> Good day,</span>
                             <br>
-                            <?php echo $username ?>!
+                            <?php echo $studentObj->firstName . " " . $studentObj->LastName ?>
                         </h1>
                         <p class="time"> </p>
-                        <p> You're a <?php echo $_SESSION["usertype"] ?> </p>
                     </div>
                 </div>
             </section>
