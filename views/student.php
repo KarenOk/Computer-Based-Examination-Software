@@ -37,9 +37,6 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h1> University <br> of <br> Lagos </h1>
-                <!-- <img src="assets/images/unilag-logo.webp" alt="University of Lagos" /> -->
-                <!-- <img src="assets/images/unilag-logo.webp" alt="University of Lagos" style="width: 150px;"> -->
-
             </div>
 
             <ul class="list-unstyled components">
@@ -75,7 +72,6 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
             <section class="tab-content home show" id="home">
                 <div class="tab-flex-cont">
                     <div class="actual-tab-content">
-                        <!-- <h1 class="welcome-message"> University of  Lagos </h1> -->
                         <!-- <img class="rounded-circle avatar" src="assets/images/student_female_3.jpg" -->
                         <img class="rounded-circle avatar" src="assets<?php echo $studentObj->imageUrl ?>"
                             alt="Student avatar">
