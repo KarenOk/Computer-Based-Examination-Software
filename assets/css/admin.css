@@ -113,7 +113,7 @@ main .tab-content.show {
 .home .welcome-message {
     font-family: 'Patua One', Verdana, Geneva, Tahoma, sans-serif;
     color: #8F4747;
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: 500;
 }
 
@@ -182,6 +182,10 @@ img.user-action, .menu {
     width: 25px;
     cursor: pointer;
     margin: 10px;
+}
+
+.modal-body {
+    padding: 40px;
 }
 
 .modal .btn-save {
