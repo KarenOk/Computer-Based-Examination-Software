@@ -19,7 +19,7 @@ $examid = $url_query['examid'];
 // Get details about the exam
 $sql = "SELECT instruction, timeDuration, courseCode, courseTitle
     FROM Exam e, Course_Student cs, Course c
-    WHERE cs.username=$username and cs.courseId=e.courseId and e.examId=$examid and c.courseId=e.courseId
+    WHERE cs.username='$username' and cs.courseId=e.courseId and e.examId='$examid' and c.courseId=e.courseId
     LIMIT 1
     ";
 
@@ -141,11 +141,19 @@ mysqli_data_seek($questionsResult, 0);
                         </header>
 
 
-                        <form method="POST" action="../process/submit-exam.php" id="examForm">
+                        <form method="POST" action="../controllers/submit-exam.php" id="examForm">
 
                             <?php
 $i = 0;
-while ($question = mysqli_fetch_assoc($questionsResult)) {
+
+$questionsArr = array();
+while ($row = mysqli_fetch_array($questionsResult)) {
+    $questionsArr[] = $row;
+}
+$shuf = shuffle($questionsArr);
+
+foreach ($questionsArr as $question) {
+
     $ques = $question['question'];
     $quesId = $question['questionId'];
     $option1 = $question['option1'];
@@ -398,6 +406,8 @@ while ($question = mysqli_fetch_assoc($questionsResult)) {
         durationElem.innerText = duration;
 
         localStorage.setItem(timeStore, duration);
+        localStorage.setItem(store, JSON.stringify(answers));
+
 
         // Stop at 00:00:00
         if (durationSec === 0 && durationMin === 0 && durationHour === 0) {
