@@ -71,7 +71,7 @@ oncut="return false" onpaste="return false" onkeydown="return (event.keyCode != 
 
 <span style="font-size: 20px; color: white"><i class="glyphicon glyphicon-user"></i>
 Welcome, <?php echo $b['l_name'] ?> </span>
-<button style="background-color: black;"> <a href="process/logout.php" style="margin: 5px; color:white;"> Logout </a> </button>
+<button style="background-color: black;"> <a href="helpers/logout.php" style="margin: 5px; color:white;"> Logout </a> </button>
 
 </div>
             </div>
@@ -210,7 +210,7 @@ E. <input type="radio" name='answer[<?php echo $id ?>]' value='<?php echo $opt_E
                     </div>
                 </div>
             </div>
-            <!-- <button style="background-color: black;"> <a href="./process/logout.php" style="margin: 5px; color:white;"> Logout </a> </button> -->
+            <!-- <button style="background-color: black;"> <a href="./helpers/logout.php" style="margin: 5px; color:white;"> Logout </a> </button> -->
             <div class="footer navbar-fixed-bottom" style="background-color: #8f4747;">
                 <div class="container">
                     <div class="row">
