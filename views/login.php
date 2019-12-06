@@ -59,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (mysqli_stmt_num_rows($stmt) == 1) {
                     // Bind result variables
 
-                    mysqli_stmt_bind_result($stmt, $username, $db_password);
-                    // echo $hashed_password + "echoo";
+                    mysqli_stmt_bind_result($stmt, $username, $hashed_password);
+
                     if (mysqli_stmt_fetch($stmt)) {
 
                         /**
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                          *
                          *
                          * **/
-                        if ($db_password == $password) {
+                        if (password_verify($password, $hashed_password)) {
                             // Password is correct, so start a new session
                             session_start();
 
@@ -170,6 +170,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </dialog>
     </section>
 
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
     <script>
     let overlay = document.querySelector(".overlay");
     let dialog = document.querySelector("dialog");
@@ -180,18 +185,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         overlay.style.display = dialog.open ? "block" : "none";
     }
 
-    // var bool = "<?php echo json_encode($loginerr) ?>";
-    // console.log(bool);
 
-    // window.onload = function mountModal() {
-    //     if (bool === "true"){
-    //         dialog.open = true;
-    //         overlay.hidden =  true;
-    //         overlay.style.display = "block" ;
-    //     }
+    // $(function() {
+    //     $('.login-form').bind('click', function(event) {
+    //         event.preventDefault(); // using this page stop being refreshing
 
-    // }
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: 'login.php',
+    //             data: $('.login-form').serialize(),
+    //             success: function() {
+    //                 console.log('form was submitted');
+    //             }
+    //         });
+
+    //     });
+    // });
     </script>
+
 
 </body>
 
