@@ -11,10 +11,10 @@ include "helpers/timeout.php"; // Handle the session timeout after inactivity
 ini_set("display_errors", 1);
 $username = $_SESSION["username"];
 
-$queryResult = mysqli_query($conn, "SELECT * FROM Student WHERE username=$username LIMIT 1");
+$queryResult = mysqli_query($conn, "SELECT * FROM Student WHERE username='$username' LIMIT 1");
 $studentObj = mysqli_fetch_object($queryResult);
 
-$examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId=$username");
+$examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId='$username'");
 ?>
 
 
@@ -37,6 +37,9 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h1> University <br> of <br> Lagos </h1>
+                <!-- <img src="assets/images/unilag-logo.webp" alt="University of Lagos" /> -->
+                <!-- <img src="assets/images/unilag-logo.webp" alt="University of Lagos" style="width: 150px;"> -->
+
             </div>
 
             <ul class="list-unstyled components">
@@ -60,7 +63,7 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
 
             <div class="logout-section text-center">
                 <button class="btn btn-lg logout">
-                    <a href="process/logout.php"> Logout </a>
+                    <a href="helpers/logout.php"> Logout </a>
                 </button>
             </div>
 
@@ -72,14 +75,14 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
             <section class="tab-content home show" id="home">
                 <div class="tab-flex-cont">
                     <div class="actual-tab-content">
-
-                        <!-- <img class="rounded-circle avatar" src="assets<?php echo $studentObj->imageUrl ?>" -->
-                        <img class="rounded-circle avatar" src="assets/images/student_female_3.jpg"
+                        <!-- <h1 class="welcome-message"> University of  Lagos </h1> -->
+                        <!-- <img class="rounded-circle avatar" src="assets/images/student_female_3.jpg" -->
+                        <img class="rounded-circle avatar" src="assets<?php echo $studentObj->imageUrl ?>"
                             alt="Student avatar">
                         <h1 class="welcome-message">
                             <span class="greeting"> Good day,</span>
                             <br>
-                            <?php echo $studentObj->firstName . " " . $studentObj->LastName ?>
+                            <?php echo $studentObj->firstName . " " . $studentObj->lastName ?>
                         </h1>
                         <p class="time"> </p>
                     </div>
@@ -95,7 +98,7 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
 $sql = "
     SELECT examId, timeDuration, courseCode, courseTitle
     FROM Course_Student cs, Course c, Exam e
-    WHERE cs.username=$username and c.courseId=e.courseId and cs.courseId=c.courseId
+    WHERE cs.username='$username' and c.courseId=e.courseId and cs.courseId=c.courseId
     ";
 
 $queryResult = mysqli_query($conn, $sql);
