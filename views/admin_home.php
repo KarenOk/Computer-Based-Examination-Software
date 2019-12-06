@@ -37,7 +37,7 @@
 
             <div class="logout-section text-center">
                 <button class="btn btn-lg logout">
-                    <a href="process/logout.php"> Logout </a>
+                    <a href="helpers/logout.php"> Logout </a>
                 </button>
             </div>
 
@@ -90,7 +90,7 @@ $sql = "SELECT *, 'Student' as usertype FROM Student
                                     UNION
                                     SELECT *, 'Examiner' as usertype FROM Examiner
                                     UNION
-                                    SELECT username, firstName, LastName, imageUrl, '-' as gender, pw , 'Administrator' as usertype FROM Administrator
+                                    SELECT username, firstName, lastName, imageUrl, '-' as gender, pw , 'Administrator' as usertype FROM Administrator
                                     ORDER BY firstName ASC";
 
 $users = mysqli_query($conn, $sql);
@@ -98,10 +98,10 @@ while ($user = mysqli_fetch_array($users)) {
     ?>
                             <tr>
                                 <td> <img class='user-image' src='assets<?php echo $user['imageUrl'] ?>'
-                                        alt='<?php echo $user['firstName'] . " " . $user['LastName'] ?>'>
+                                        alt='<?php echo $user['firstName'] . " " . $user['lastName'] ?>'>
                                 </td>
                                 <td> <?php echo $user['username'] ?> </td>
-                                <td> <?php echo $user['firstName'] . " " . $user['LastName'] ?> </td>
+                                <td> <?php echo $user['firstName'] . " " . $user['lastName'] ?> </td>
                                 <td> <?php echo $user['gender'] ?> </td>
                                 <td> <?php echo $user['usertype'] ?> </td>
                                 <td>
@@ -134,10 +134,10 @@ while ($user = mysqli_fetch_array($users)) {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </header>
-                            <!-- username,firstName,LastName,imageUrl,gender,password -->
+                            <!-- username,firstName,lastName,imageUrl,gender,password -->
 
                             <div class="modal-body">
-                                <form method="post" id="createUserForm" action="process/register-user.php">
+                                <form method="post" id="createUserForm" action="controllers/register-user.php">
                                     <div class="form-group">
                                         <label for="user-type">User Category</label>
                                         <select class="form-control" id="user-type" name="user-type">
@@ -261,7 +261,7 @@ while ($course = mysqli_fetch_array($courses)) {
 }
 ?>
 
-                            <tr>
+                            <!-- <tr>
                                 <td>Signals and Systems</td>
                                 <td>EEG203 </td>
                                 <td>
@@ -302,7 +302,7 @@ while ($course = mysqli_fetch_array($courses)) {
                                     <img class="user-action" src="assets/images/delete.svg" alt="Delete" title="Delete"
                                         aria-label="Delete Course">
                                 </td>
-                            </tr>
+                            </tr> -->
 
                         </tbody>
                     </table>
@@ -324,7 +324,7 @@ while ($course = mysqli_fetch_array($courses)) {
 
 
                             <div class="modal-body">
-                                <form method="post" id="createCourseForm" action="process/register-course.php">
+                                <form method="post" id="createCourseForm" action="controllers/register-course.php">
                                     <div class="form-group">
                                         <label for="ctitle"> Course Title </label>
                                         <input type="text" id="ctitle" name="ctitle" class="form-control" required>
@@ -404,6 +404,16 @@ while ($course = mysqli_fetch_array($courses)) {
         $(`.tab-content.${activeTab}`).addClass("show");
 
 
+    });
+
+    document.querySelector("#cpassword").addEventListener("change", e => {
+        var input = e.target;
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Passwords do not match');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
     });
     </script>
 

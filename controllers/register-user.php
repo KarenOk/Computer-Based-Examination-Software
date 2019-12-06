@@ -13,19 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = $_POST["user-gender"];
     $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     if ($password !== $cpassword) {
         die("Password and Confirm Password don't match.");
     }
 
     if ($usertype === "administrator") {
-        $sql = " INSERT INTO Administrator (username, firstName, lastName, imageUrl, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$password')";
+        $sql = " INSERT INTO Administrator (username, firstName, lastName, imageUrl, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$hashed_password')";
 
     } else if ($usertype === "examiner") {
-        $sql = " INSERT INTO Examiner (username, firstName, lastName, imageUrl, gender, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$gender', '$password')";
+        $sql = " INSERT INTO Examiner (username, firstName, lastName, imageUrl, gender, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$gender', '$hashed_password')";
 
     } else if ($usertype === "student") {
-        $sql = " INSERT INTO Student (username, firstName, lastName, imageUrl, gender, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$gender', '$password')";
+        $sql = " INSERT INTO Student (username, firstName, lastName, imageUrl, gender, pw) VALUES ('$username', '$firstName', '$lastName', '$imageUrl', '$gender', '$hashed_password')";
 
     }
 

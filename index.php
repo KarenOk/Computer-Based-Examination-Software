@@ -1,7 +1,9 @@
+<!-- TODO: Separate themed styles -->
+
+
 <?php
 session_start();
 ini_set("display_errors", 1);
-// ini_set('session.gc_maxlifetime', 3600);
 
 if (!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === false) {
     header("location: views/login.php");
@@ -36,7 +38,7 @@ if ($_SESSION["usertype"] === "Administrator") {
 
 ?>
 
-    <button style="background-color: black; width: 6em;"> <a href="process/logout.php"
+    <button style="background-color: black; width: 6em;"> <a href="helpers/logout.php"
             style="margin: 5px; color:white;"> Logout </a> </button>
 </body>
 
