@@ -1,16 +1,16 @@
 CREATE DATABASE IF NOT EXISTS CBT;
 USE CBT;
 
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE Student;
-DROP TABLE Administrator;
-DROP TABLE Examiner;
-DROP TABLE Course_Examiner;
-DROP TABLE Course_Student;
-DROP TABLE Course;
-DROP TABLE Exam;
-DROP TABLE Question;
-DROP TABLE Student_Result;
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- DROP TABLE Student;
+-- DROP TABLE Administrator;
+-- DROP TABLE Examiner;
+-- DROP TABLE Course_Examiner;
+-- DROP TABLE Course_Student;
+-- DROP TABLE Course;
+-- DROP TABLE Exam;
+-- DROP TABLE Question;
+-- DROP TABLE Student_Result;
 
 
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Administrator (
     firstName CHAR(100) NOT NULL DEFAULT "Admin",
     lastName CHAR(100) NOT NULL DEFAULT "Admin",
     imageUrl VARCHAR(255) DEFAULT "/images/admin.png",
-    pw VARCHAR(255) NOT NULL DEFAULT "admin" -- password
+    pw VARCHAR(255) NOT NULL DEFAULT "$2y$10$B9gGv1ohRO.KubkLY1gyGuwmc0.SNdBYMME8cYsuvVDpC6YdBwNny" -- password
 );
 
 
@@ -123,7 +123,7 @@ SHOW TABLES;
 
 -- Load Student Data from CSV file
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/students.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/students.csv"
 INTO TABLE Student
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -133,7 +133,7 @@ IGNORE 1 ROWS;
 
 -- Load Examiner Data from CSV file
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/examiners.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/examiners.csv"
 INTO TABLE Examiner
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -146,7 +146,7 @@ INSERT INTO Administrator VALUES ();
 
 -- Load Course Data from CSV file
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/courses.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/courses.csv"
 INTO TABLE Course
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -157,7 +157,7 @@ IGNORE 1 ROWS
 
 -- Load Exam Data from CSV file
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/examination.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/examination.csv"
 INTO TABLE Exam
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -169,7 +169,7 @@ IGNORE 1 ROWS
 
 -- Load Question Data from CSV file
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/questions.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/questions.csv"
 INTO TABLE Question
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -179,7 +179,7 @@ IGNORE 1 ROWS
 -- SELECT * FROM Question;
 
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/course-examiner.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/course-examiner.csv"
 INTO TABLE Course_Examiner
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'
@@ -189,7 +189,7 @@ IGNORE 1 ROWS
 -- SELECT * FROM Course_Examiner;
 
 LOAD DATA
-LOCAL INFILE "/home/kars/Downloads/cbe-software/database/course-student.csv"
+LOCAL INFILE "/home/kars/Downloads/cbe-software/models/course-student.csv"
 INTO TABLE Course_Student
 FIELDS TERMINATED BY ","
 OPTIONALLY ENCLOSED BY '"'

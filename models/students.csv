@@ -1,3 +1,4 @@
 username,firstName,lastName,imageUrl,gender,password
-"150408502","Karen","Okonkwo","/images/student_female.png","female","haha"
-"130408502","Omi","Obi","/images/student_male.jpg","male","haha"
+"150408502","Karen","Okonkwo","/images/student_female_3.jpg","female","$2y$10$7s3vhwb/S5k4TgDIvnud3eLVTKaE9XospRMiXHna.3eF8FX5JlLbe"
+"130408502","Omi","Obi","/images/student_male.jpg","male","$2y$10$7s3vhwb/S5k4TgDIvnud3eLVTKaE9XospRMiXHna.3eF8FX5JlLbe"
+"130408016","Feyisola","Adelaja","/images/student_female_2.jpg","female","$2y$10$pnqojnaPkOnCB4B79PFNrexxO2GRhV6PrcgP/1yayZNQ1DFXI48z6"

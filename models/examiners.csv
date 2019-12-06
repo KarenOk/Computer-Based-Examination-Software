@@ -1,3 +1,3 @@
 username,firstName,lastName,imageUrl,gender,password
-"jane_osoba","Jane","Osoba","/images/examiner_female.png","female","haha"
-"ayo_ph","Ayo","Popoola-Herbert","/images/examiner_male.png","male","haha"
+"jane_osoba","Jane","Osoba","/images/examiner_female.png","female","$2y$10$7s3vhwb/S5k4TgDIvnud3eLVTKaE9XospRMiXHna.3eF8FX5JlLbe"
+"ayo_ph","Ayo","Popoola-Herbert","/images/examiner_male.png","male","$2y$10$7s3vhwb/S5k4TgDIvnud3eLVTKaE9XospRMiXHna.3eF8FX5JlLbe"
