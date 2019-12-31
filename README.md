@@ -13,6 +13,7 @@ Online Examination System implemented as the final project for my Computer Engin
 
 
 ## <a name="demo"></a>  Demo
+![Game Demo](assets/images/demo.gif)
 
 ## <a name="features"></a>  Features
 * ### General Features
@@ -23,20 +24,20 @@ Online Examination System implemented as the final project for my Computer Engin
 
         
 * ### User-specific features
-    ##### Student
+    * #### Student
         
         - Resumption capability for students
         - Automatic grading
         - Question randomization
         
-    ##### Examiner
+    * #### Examiner
         
         - Manage exams and set questions for assigned courses.
         - Activate exams.
         - Set exam time and instruction.
         - View all exam results of exams for assigned courses.
         
-    * ##### Administrator
+    * #### Administrator
         
         - Register users and courses.
         - View users and courses.
