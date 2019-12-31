@@ -17,10 +17,10 @@ Online Examination System implemented as the final project for my Computer Engin
 
 ## <a name="features"></a>  Features
 * ### General Features
-        - Cross-platform
-        - Responsive
-        - Accessible
-        - Supports objective questions
+    - Cross-platform
+    - Responsive
+    - Accessible
+    - Supports objective questions
 
         
 * ### User-specific features
