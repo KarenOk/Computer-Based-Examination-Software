@@ -1,4 +1,4 @@
-# Computer-Based-Examination-Software
+# Computer-Based Examination Software
 
 Online Examination System implemented as the final project for my Computer Engineering Bachelor's Degree.
 
@@ -55,13 +55,13 @@ Online Examination System implemented as the final project for my Computer Engin
 - MySQL
 
 ## <a name="design-inspo"></a> Design Inspiration
-The user interface of this project was inspired by [Abhinav Bassi](https://www.behance.net/abhibassi)
+The user interface of this project was inspired by [Abhinav Bassi](https://www.behance.net/abhibassi).
 
 ## <a name="feedback"></a> Feedback
 Any questions or suggestions? Notice any bugs or glitches? Feel free to send me an [email](mailto:karenokonkwo29@gmail.com).
 
 ## <a name="author"></a> Author 
-Karen Chioma Okonkwo (2019)
+Karen Chioma Okonkwo (2019).
 
 
 
