@@ -62,16 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     mysqli_stmt_bind_result($stmt, $username, $hashed_password);
 
                     if (mysqli_stmt_fetch($stmt)) {
-
-                        /**
-                         *
-                         *
-                         *
-                         * TODO: CHECK FOR HASHED PASSWORDS
-                         *
-                         *
-                         *
-                         * **/
                         if (password_verify($password, $hashed_password)) {
                             // Password is correct, so start a new session
                             session_start();
@@ -127,65 +117,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main>
         <p> Online Examination System </p>
-        <button onclick="toggleModal()"> Login </button>
+        <button data-toggle="modal" data-target="#login-form"> Login </button>
+
     </main>
 
-    <section class="overlay" aria-hidden="false">
-        <dialog class="login-form" aria-modal="true" aria-labelledby="login" aria-describedby="login">
-            <h2> Login </h2>
-            <p>Please fill in your details to login.</p>
+    <!-- Login Modal -->
+    <div id="login-form" class="modal login-form" aria-modal="true" tabindex="-1" role="dialog" aria-labelledby="login"aria-describedby="login">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <section class="modal-content">
 
-            <form method="post">
-                <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                    <label for="username"> Username </label>
-                    <input type="text" id="username" name="username" class="form-control"
-                        value="<?php echo $username; ?>">
-                    <span class="help-block"><?php echo $username_err; ?></span>
+                <header class="modal-header">
+                    <h2 class="modal-title">Login </h2>
+                </header>
+
+                <div class="modal-body">
+                    <p>Please fill in your details to login.</p>
+                    <form method="post">
+                        <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                            <label for="username"> Username </label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                value="<?php echo $username; ?>">
+                            <span class="help-block"><?php echo $username_err; ?></span>
+                        </div>
+
+                        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control">
+                            <span class="help-block"><?php echo $password_err; ?></span>
+                        </div>
+
+                        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                            <label for="user-type">User Category</label>
+                            <select class="form-control" id="user-type" name="user-type">
+                                <option value="administrator">Admin</option>
+                                <option value="student">Student</option>
+                                <option value="examiner">Examiner</option>
+                            </select>
+                            <span class="help-block"><?php echo $usertype_err; ?></span>
+                        </div>
+
+                        <div class="form-group button-group">
+                            <button type="button" class="btn cls" data-dismiss="modal"> Cancel </button>
+                            <input type="submit" class="btn" value="Login">
+                        </div>
+
+                    </form>
+
                 </div>
 
-                <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control">
-                    <span class="help-block"><?php echo $password_err; ?></span>
-                </div>
-
-                <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                    <label for="user-type">User Category</label>
-                    <select class="form-control" id="user-type" name="user-type">
-                        <option value="administrator">Admin</option>
-                        <option value="student">Student</option>
-                        <option value="examiner">Examiner</option>
-                    </select>
-                    <span class="help-block"><?php echo $usertype_err; ?></span>
-                </div>
-
-                <div class="form-group button-group">
-                    <button type="button" class="btn cls" onclick="toggleModal()"> Cancel </button>
-                    <input type="submit" class="btn" value="Login">
-                </div>
-
-
-
-            </form>
-        </dialog>
-    </section>
+            </section>
+        </div>
+    </div>
 
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
+    </script>
+
 
     <script>
-    let overlay = document.querySelector(".overlay");
-    let dialog = document.querySelector("dialog");
-
-    function toggleModal() {
-        dialog.open = !dialog.open;
-        overlay.hidden = !dialog.open ? true : false;
-        overlay.style.display = dialog.open ? "block" : "none";
-    }
-
-
     // $(function() {
     //     $('.login-form').bind('click', function(event) {
     //         event.preventDefault(); // using this page stop being refreshing
