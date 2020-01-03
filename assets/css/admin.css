@@ -179,9 +179,11 @@ header .left>* {
 }
 
 img.user-action, .menu {
-    width: 25px;
+    width: 40px;
+    padding: 5px;
     cursor: pointer;
-    margin: 10px;
+    margin: 20px 10px 0px;
+    display: none;
 }
 
 .modal-body {
@@ -203,4 +205,14 @@ img.user-action, .menu {
     main {
         width: 100%;
     }
+    img.user-action, .menu {
+        display: block;
+    }
 }
+
+/* 
+@media (min-width: 769px) {
+    #sidebar {
+        margin-left: 0;
+    }
+} */

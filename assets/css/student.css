@@ -3,7 +3,7 @@
 }
 
 .show .tab-flex-cont {
-    min-height: 90vh;
+    min-height: calc(90vh - 45px);
     display: flex;
     align-items: center;
     justify-content: center;

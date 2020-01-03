@@ -68,6 +68,9 @@ $examResults = mysqli_query($conn, "SELECT * from Student_Result WHERE studentId
 
         <!-- Main Content-->
         <main>
+            <div class="menu-cont">
+                <i> <img src="assets/images/menu-icon.svg" class="menu" alt="menu"></i>
+            </div>
             <!-- Home Tab -->
             <section class="tab-content home show" id="home">
                 <div class="tab-flex-cont">
@@ -210,6 +213,12 @@ if (mysqli_num_rows($examResults) == 0) {
             $('main').toggleClass('active');
         });
 
+        $("main").on("click", function(e) {
+            if(document.querySelector("#sidebar.active") && e.target.className !== "menu"){
+                $('#sidebar').removeClass('active');
+            };
+        });
+
         let resultSubmitTimes = document.querySelectorAll(".result-cont .submit-time");
         resultSubmitTimes.forEach(elem => {
             let time = GetClock(new Date(elem.innerText.trim().replace(' ', 'T')));
@@ -239,7 +248,20 @@ if (mysqli_num_rows($examResults) == 0) {
         //  Add show to active tab
         $(`.tab-content.${activeTab}`).addClass("show");
 
+        // Remove sidebar after navigating succesfully
+        if(document.querySelector("#sidebar.active")){
+                $('#sidebar').removeClass('active');
+        };
 
+    });
+
+
+    // FIX: Resize to larger width removes active class from sidebar
+    window.addEventListener('resize', () => {
+        if(window.innerWidth > 768) {
+            $('#sidebar').removeClass('active');
+            console.log("resized");
+        }
     });
 
     var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
