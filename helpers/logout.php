@@ -9,5 +9,5 @@ $_SESSION = array();
 session_destroy();
 
 // Redirect to login page
-header("location:" . $_SERVER['DOCUMENT_ROOT'] . "/../../../" . "/cbe-software/views/login.php");
+header("location:" . $_SERVER['DOCUMENT_ROOT'] . "/../../../" . "views/login.php");
 exit;
